@@ -2,16 +2,17 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee, faCartPlus } from '@fortawesome/free-solid-svg-icons'
 import './Product.css'
+import { Link } from 'react-router-dom';
 const Product = (props) => {
      console.log(props.product)
-    const { name, img, price, stock, seller } = props.product;
+    const { name, img, price, stock, seller,key } = props.product;
     return (
         <div className='product'>
             <div>
                 <img src={img} alt="" />
             </div>
             <div className='product-info'>
-                <h3 class='product-name'>{name}</h3>
+                <h3 class='product-name'><Link to={"/product/" + key}>{name}</Link></h3>
                 <small>by:{seller}</small>
                 <br />
                 <p>${price}</p>
