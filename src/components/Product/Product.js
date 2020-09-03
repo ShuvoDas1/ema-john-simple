@@ -14,11 +14,11 @@ const Product = (props) => {
                 <img src={img} alt="" />
             </div>
             <div className='product-info'>
-                <h3 class='product-name'><Link to={"/product/" + key}>{name}</Link></h3>
+                <h3 className='product-name'><Link to={"/product/"+ key}>{name}</Link></h3>
                 <small>by:{seller}</small>
                 <br />
-                <p>${price}</p>
-                <p>only {stock} left in stock-order soon</p>
+                    <p><Link to={'/productPrice/' + key}>{price}</Link></p>
+                    <p>only {stock} left in stock-order soon</p>
                 {props.showDetail &&
                     <>
                         <p>Shipping cost: {shipping}</p>
@@ -27,7 +27,7 @@ const Product = (props) => {
                         // <p>{second.description +":" + second.value}</p> */}
                     </>
                 }
-                {props.showAddToCart && <button class='main-btn' onClick={() => props.handleAddProduct(props.product)} ><FontAwesomeIcon icon={faCartPlus} />add to cart</button>}
+                {props.showAddToCart && <button className='main-btn' onClick={() => props.handleAddProduct(props.product)} ><FontAwesomeIcon icon={faCartPlus} />add to cart</button>}
             </div>
         </div>
     );

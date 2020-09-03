@@ -13,6 +13,7 @@ import Review from './components/Review/Review';
 import Inventory from './components/Inventory/Inventory';
 import NotFound from './components/NotFound/NotFound';
 import ProductDetail from './components/ProductDetail/ProductDetail';
+import Temp from './components/Temp/Temp';
 
 function App() {
   return (
@@ -34,6 +35,9 @@ function App() {
           </Route>
           <Route path="/product/:productKey">
             <ProductDetail></ProductDetail>
+          </Route>
+          <Route path="/productPrice/:productPrice">
+            <Temp></Temp>
           </Route>
           <Route path="*">
             <NotFound></NotFound>
