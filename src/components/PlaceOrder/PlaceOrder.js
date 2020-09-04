@@ -6,6 +6,9 @@ const PlaceOrder = (props) => {
     const totalPrice = cart.reduce((total,product)=> total + product.price,0)
     console.log(totalPrice);
     const quantity = cart.map(pd => pd.quantity)
+    const user ={name:'shuvo',job:'bekar'}
+    const values = Object.keys(user);
+    // console.log(values)
     
     return (
         <div>

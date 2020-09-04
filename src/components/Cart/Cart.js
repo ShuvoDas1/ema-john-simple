@@ -2,8 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Cart = (props) => {
+
     const cart = props.cart;
-    const total = cart.reduce((total,product)=> total+product.price,0)
+    // console.log(cart);
+    const total = cart.reduce((total,product)=> total+product.price*product.quantity,0);
+
     let shipping =0;
     if(total > 35){
         shipping = 0;

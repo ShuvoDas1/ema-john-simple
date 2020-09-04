@@ -10,15 +10,27 @@ const Shop = () => {
     const [cart,setCart] = useState([]);
     
     const handleAddProduct = (product) =>{
-         const newCart = [...cart,product];
-         setCart(newCart);
-         const sameProduct = newCart.filter(pd => pd.key === product.key);
+        const sameProduct = cart.find(pd => pd.key === product.key);
         //  console.log(sameProduct);
-         const count = sameProduct.length;
+        let count;
+        let newCart;
+        if(sameProduct){
+            count = sameProduct.quantity + 1;
+            sameProduct.quantity = count;
+            const others = cart.filter(pd => pd.key !== product.key)
+            // console.log(others);
+             newCart = [...others,sameProduct];
+        }
+        else{
+            product.quantity = 1;
+            newCart = [...cart,product];
+
+        }
+        setCart(newCart);
          addToDatabaseCart(product.key,count)
     }
     return (
-        <div className="shop-container">
+        <div className="shop-review-container">
             <div className="product-container">
             
             {
