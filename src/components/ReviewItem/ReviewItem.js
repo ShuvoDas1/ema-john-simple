@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ReviewItem = (props) => {
-        console.log(props.product);
+        // console.log(props.product);
         const {name,quantity,seller,key,price} = props.product;
     // console.log(props);
     // const {name,quantity,key,price} = props.product;
