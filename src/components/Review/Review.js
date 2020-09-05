@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import {  getDatabaseCart, removeFromDatabaseCart } from '../../utilities/databaseManager';
+import {  getDatabaseCart, removeFromDatabaseCart, processOrder } from '../../utilities/databaseManager';
 import fakeData from '../../fakeData';
 import ReviewItem from '../ReviewItem/ReviewItem';
 import Cart from '../Cart/Cart';
 import PlaceOrder from '../PlaceOrder/PlaceOrder';
-
+import { Link } from 'react-router-dom';
+import happyImg from '../../images/giphy.gif';
 const Review = () => {
-        const [cart,setCart] = useState([])
+        const [cart,setCart] = useState([]);
+        const [orderPlaced,setPlaceOrder] = useState(false);
+
+        const handlePlaceOrder = () => {
+            setCart([]);
+            setPlaceOrder(true);
+            processOrder();
+        }
+
         useEffect((() =>{
             const saveCart = getDatabaseCart();
             const productKeys = Object.keys(saveCart);
@@ -21,6 +30,10 @@ const Review = () => {
             const newCart = cart.filter(product => product.key !== productKey)
             setCart(newCart);
             removeFromDatabaseCart(productKey);
+        }
+        let thankyou;
+        if(orderPlaced){
+            thankyou = <img src={happyImg} alt=""/>
         }
 //     const [cart,setCart] = useState([]);
 //     const removeItem = (productKey) =>{
@@ -49,9 +62,12 @@ const Review = () => {
                 {
                     cart.map(product => <ReviewItem removeItem = {removeItem} product={product}></ReviewItem>)
                 }
+                {thankyou}
             </div>
             <div className='cart-container'>
-                <Cart cart={cart}></Cart>
+                <Cart  cart={cart}>
+                    <Link to="/review" onClick={handlePlaceOrder}><button className="main-btn">Place Order</button></Link>
+                </Cart>
             </div>
 
 
