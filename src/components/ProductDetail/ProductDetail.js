@@ -9,6 +9,7 @@ const ProductDetail = () => {
     // console.log(prod);
     return (
         <div>
+           
             <h1>Product Detail:</h1>
             <Product showDetail={true} showAddToCart={false} product={prod}>
             </Product>

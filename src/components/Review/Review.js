@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import {  getDatabaseCart, removeFromDatabaseCart, processOrder } from '../../utilities/databaseManager';
 import fakeData from '../../fakeData';
 import ReviewItem from '../ReviewItem/ReviewItem';
 import Cart from '../Cart/Cart';
 import PlaceOrder from '../PlaceOrder/PlaceOrder';
-import { Link } from 'react-router-dom';
+import {  useHistory } from 'react-router-dom';
 import happyImg from '../../images/giphy.gif';
 const Review = () => {
         const [cart,setCart] = useState([]);
         const [orderPlaced,setPlaceOrder] = useState(false);
-
-        const handlePlaceOrder = () => {
-            setCart([]);
-            setPlaceOrder(true);
-            processOrder();
+        const history = useHistory();
+        const handleProceedCheckOut = () => {     
+            history.push('/shipment')
         }
 
         useEffect((() =>{
@@ -66,7 +64,7 @@ const Review = () => {
             </div>
             <div className='cart-container'>
                 <Cart  cart={cart}>
-                    <Link to="/review" onClick={handlePlaceOrder}><button className="main-btn">Place Order</button></Link>
+                     <button className="main-btn" onClick={handleProceedCheckOut}>Proceed CheckOut</button>
                 </Cart>
             </div>
 
