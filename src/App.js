@@ -17,14 +17,15 @@ import Temp from './components/Temp/Temp';
 import Login from './components/Login/Login';
 import Shipment from './components/Shipment/Shipment';
 import { createContext } from 'react';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 export const UserContext = createContext();
 function App() {
   const [loggedInUser,setLoggedInUser] = useState({})
   return (
     <UserContext.Provider value={[loggedInUser,setLoggedInUser]}>
       <h1>Email:{loggedInUser.email}</h1>
-      <Header></Header>
       <Router>
+      <Header></Header>
         <Switch>
           <Route path="/shop">
             <Shop></Shop>
@@ -32,9 +33,9 @@ function App() {
           <Route path="/review">
             <Review></Review>
           </Route>
-          <Route path="/inventory">
+          <PrivateRoute path="/inventory">
             <Inventory></Inventory>
-          </Route>
+          </PrivateRoute>
           <Route exact path="/">
             <Shop></Shop>
           </Route>
@@ -47,9 +48,9 @@ function App() {
           <Route path="/login">
             <Login></Login>
           </Route>
-          <Route path="/shipment">
+          <PrivateRoute path="/shipment">
             <Shipment></Shipment>
-          </Route>
+          </PrivateRoute>
           <Route path="*">
             <NotFound></NotFound>
           </Route>
