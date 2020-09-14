@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useContext } from 'react';
 import { UserContext } from '../../App';
 import { useHistory, useLocation } from 'react-router-dom';
-import { handleGoogleSignIn, handleSignOut, initializeLoginFrameWork } from './LoginManager';
+import { createWithEmailAndPassword, handleGoogleSignIn, handleSignOut, initializeLoginFrameWork, signInWithEmailAndPassword } from './LoginManager';
 
 
 
@@ -33,6 +33,7 @@ function Login() {
     .then(res => {
       setUser(res)
       setLoggedInUser(res);
+      history.replace(from)
     })
   }
   
@@ -47,9 +48,20 @@ function Login() {
   const handleSubmit = (e) =>{
 
     if(newUser && user.email && user.password){
-      
+      createWithEmailAndPassword(user.name,user.email,user.password)
+      .then(res => {
+        setUser(res);
+        setLoggedInUser(res);
+        history.replace(from);
+      })
     }
     if(!newUser && user.email && user.password){
+      signInWithEmailAndPassword(user.email,user.password)
+      .then(res => {
+        setUser(res)
+        setLoggedInUser(res);
+        history.replace(from);
+      })
       
     }
     e.preventDefault();

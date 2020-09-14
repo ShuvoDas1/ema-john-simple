@@ -17,7 +17,8 @@ export const initializeLoginFrameWork = () =>{
         isSignIn: true,
         name: displayName,
         email: email,
-        photo: photoURL
+        photo: photoURL,
+        success: true
       }
       return signedInUser;
     })
@@ -45,54 +46,49 @@ export const initializeLoginFrameWork = () =>{
     
   }
 
-    // const createWithEmailAndPassword = () =>{
-    //     firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
-    //   .then(res =>{
-    //     const newUserInfo = {...user}
-    //     newUserInfo.error = '';
-    //     newUserInfo.success = true
-    //     setUser(newUserInfo);
-    //     updateUserInfo(user.name)
-    //   })
-    //   .catch(error =>  {
-    //     // Handle Errors here.
-    //     var errorCode = error.code;
-    //     var errorMessage = error.message;
-    //     const newUserInfo = {...user};
-    //     newUserInfo.success =  false;
-    //     newUserInfo.error = errorMessage;
-    //     setUser(newUserInfo);
-    //   });
-    // }
+   export const createWithEmailAndPassword = (name,password,email) =>{
+      return  firebase.auth().createUserWithEmailAndPassword(email,password)
+      .then(res =>{
+        const newUserInfo = res.user;
+        newUserInfo.error = '';
+        newUserInfo.success = true;
+         updateUserInfo(name);
+         return newUserInfo;
+      })
+      .catch(error =>  {
+        const newUserInfo = {};
+        newUserInfo.success =  false;
+        newUserInfo.error = error.message;
+        return newUserInfo;
+      });
+    }
 
-    //   const signInWithEmailAndPassword = () => {
-    //     firebase.auth().signInWithEmailAndPassword(user.email, user.password)
-    //     .then(res => {
-    //       const newUserInfo = {...user}
-    //       newUserInfo.error = '';
-    //       newUserInfo.success = true
-    //       setUser(newUserInfo)
-    //       setLoggedInUser(newUserInfo);
-    //       history.replace(from)
-    //       // console.log(res);
-    //     })
-    //     .catch(function(error) {
-    //       const newUserInfo = {...user};
-    //       newUserInfo.success =  false;
-    //       newUserInfo.error = error.Message;
-    //       setUser(newUserInfo);
-    //       // ...
-    //     });
-    //   }
+    export  const signInWithEmailAndPassword = (email,password) => {
+       return firebase.auth().signInWithEmailAndPassword(email,password)
+        .then(res => {
+          const newUserInfo = res.user;
+          newUserInfo.error = '';
+          newUserInfo.success = true;
+          // console.log(res);
+          return newUserInfo;
+        })
+        .catch(function(error) {
+          const newUserInfo = {};
+          newUserInfo.success =  false;
+          newUserInfo.error = error.Message;
+          return newUserInfo;
+          // ...
+        });
+      }
 
-    //   const updateUserInfo = name =>{
-    //     var user = firebase.auth().currentUser;
+      const updateUserInfo = name =>{
+        var user = firebase.auth().currentUser;
     
-    //     user.updateProfile({
-    //       displayName: name,
-    //     }).then(() => {
-    //       console.log('User update successfully');
-    //     }).catch(error => {
-    //       console.log(error);
-    //     });
-    //   }
+        user.updateProfile({
+          displayName: name,
+        }).then(() => {
+          console.log('User update successfully');
+        }).catch(error => {
+          console.log(error);
+        });
+      }
