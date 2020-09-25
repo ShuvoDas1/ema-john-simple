@@ -46,13 +46,14 @@ export const initializeLoginFrameWork = () =>{
     
   }
 
-   export const createUserWithEmailAndPassword = (name,password,email) =>{
+   export const createUserWithEmailAndPassword = (name,email,password) =>{
       return firebase.auth().createUserWithEmailAndPassword(email,password)
       .then(res =>{
         const newUserInfo = res.user;
         newUserInfo.error = '';
         newUserInfo.success = true;
          updateUserInfo(name);
+         verifyEmail();
          return newUserInfo;
       })
       .catch(error =>  {
@@ -71,14 +72,31 @@ export const initializeLoginFrameWork = () =>{
           newUserInfo.error = '';
           newUserInfo.success = true;
           return newUserInfo;
-          console.log('user sign in successfully');
         })
         .catch(function(error) {
           const newUserInfo = {};
           newUserInfo.success =  false;
           newUserInfo.error = error.Message;
           return newUserInfo;
-          // ...
+          console.log(error);
+        });
+      }
+
+    export const resetPassword = email => {
+      var auth = firebase.auth();
+      auth.sendPasswordResetEmail(email).then(function() {
+        // Email sent.
+      }).catch(function(error) {
+        // An error happened.
+      });
+     }
+
+      const verifyEmail = () =>{
+        var user = firebase.auth().currentUser;
+        user.sendEmailVerification().then(function() {
+          // Email sent.
+        }).catch(function(error) {
+          // An error happened.
         });
       }
 

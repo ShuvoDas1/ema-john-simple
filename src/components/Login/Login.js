@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useContext } from 'react';
 import { UserContext } from '../../App';
 import { useHistory, useLocation } from 'react-router-dom';
-import { createUserWithEmailAndPassword,  handleGoogleSignIn, handleSignOut, initializeLoginFrameWork, signInWithEmailAndPassword } from './LoginManager';
+import { createUserWithEmailAndPassword,  handleGoogleSignIn, handleSignOut, initializeLoginFrameWork, resetPassword, signInWithEmailAndPassword } from './LoginManager';
 
 
 
@@ -45,7 +45,6 @@ function Login() {
   }
 
   const handleSubmit = (e) =>{
-
     if(newUser && user.email && user.password){
       createUserWithEmailAndPassword(user.name,user.email,user.password)
       .then(res => {
@@ -53,6 +52,7 @@ function Login() {
         setLoggedInUser(res);
         history.replace(from);
       })
+
     }
     if(!newUser && user.email && user.password){
       signInWithEmailAndPassword(user.email,user.password)
@@ -61,6 +61,7 @@ function Login() {
         setLoggedInUser(res);
         history.replace(from);
       })
+     
       
     }
     e.preventDefault();
@@ -69,8 +70,8 @@ function Login() {
   const handleBlur = (e) => {
     let isFieldValid = true;
     if(e.target.name === 'email'){
-        const email = e.target.value;
-        isFieldValid = /\S+@\S+\.\S+/.test(email);
+        isFieldValid =/\S+@\S+\.\S+/.test(e.target.value);
+
     }
     if(e.target.name === 'password'){
         const isPasswordValid = e.target.value.length > 6;
@@ -91,9 +92,6 @@ function Login() {
        { 
         user.isSignIn ?<button onClick={signOut}>Sign Out</button>  : <button onClick={googleSignIn}>Sign In</button>
       } 
-       <h3>Name: {user.name}</h3>
-      <h4>Email: {user.email}</h4>
-
       <h3>Our Own Authentication</h3>
        <input type="checkbox" onChange={() => setNewUser(!newUser)} id=""/>
        <label htmlFor="newUser">Sign Up as new user</label>
@@ -107,6 +105,9 @@ function Login() {
         <br/>
         <button type="submit">{newUser ? "Sign Up" : 'LogIn'}</button>
       </form>
+        <br/>
+      <button onClick={() => resetPassword(user.email)}>Reset Password</button>
+      
       <p style={{color:'red'}}>{user.error}</p>
       {user.success && <p style={{color:'green'}}>User {newUser ? "Created" : "Logged In"} Successfully</p>}
     </div>
