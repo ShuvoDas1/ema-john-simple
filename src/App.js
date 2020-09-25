@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import Header from './components/Header/Header';
 import Shop from './components/Shop/Shop';
-import {
-  BrowserRouter as Router,
+import {  BrowserRouter as Router,
   Switch,
   Route,
   Link,
@@ -19,6 +18,8 @@ import Shipment from './components/Shipment/Shipment';
 import { createContext } from 'react';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 export const UserContext = createContext();
+
+
 function App() {
   const [loggedInUser,setLoggedInUser] = useState({})
   return (

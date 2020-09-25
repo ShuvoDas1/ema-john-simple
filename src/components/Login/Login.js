@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-
 import { useContext } from 'react';
 import { UserContext } from '../../App';
 import { useHistory, useLocation } from 'react-router-dom';
-import { createWithEmailAndPassword, handleGoogleSignIn, handleSignOut, initializeLoginFrameWork, signInWithEmailAndPassword } from './LoginManager';
+import { createUserWithEmailAndPassword,  handleGoogleSignIn, handleSignOut, initializeLoginFrameWork, signInWithEmailAndPassword } from './LoginManager';
 
 
 
@@ -48,7 +47,7 @@ function Login() {
   const handleSubmit = (e) =>{
 
     if(newUser && user.email && user.password){
-      createWithEmailAndPassword(user.name,user.email,user.password)
+      createUserWithEmailAndPassword(user.name,user.email,user.password)
       .then(res => {
         setUser(res);
         setLoggedInUser(res);
@@ -58,7 +57,7 @@ function Login() {
     if(!newUser && user.email && user.password){
       signInWithEmailAndPassword(user.email,user.password)
       .then(res => {
-        setUser(res)
+        setUser(res);
         setLoggedInUser(res);
         history.replace(from);
       })
@@ -89,11 +88,12 @@ function Login() {
   
   return (
     <div className="App">
-      { 
+       { 
         user.isSignIn ?<button onClick={signOut}>Sign Out</button>  : <button onClick={googleSignIn}>Sign In</button>
-      }
-      {/* <h3>Name: {user.name}</h3>
-      <h4>Email: {user.email}</h4> */}
+      } 
+       <h3>Name: {user.name}</h3>
+      <h4>Email: {user.email}</h4>
+
       <h3>Our Own Authentication</h3>
        <input type="checkbox" onChange={() => setNewUser(!newUser)} id=""/>
        <label htmlFor="newUser">Sign Up as new user</label>

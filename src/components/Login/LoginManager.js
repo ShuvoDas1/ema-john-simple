@@ -18,7 +18,7 @@ export const initializeLoginFrameWork = () =>{
         name: displayName,
         email: email,
         photo: photoURL,
-        success: true
+        success: false
       }
       return signedInUser;
     })
@@ -46,8 +46,8 @@ export const initializeLoginFrameWork = () =>{
     
   }
 
-   export const createWithEmailAndPassword = (name,password,email) =>{
-      return  firebase.auth().createUserWithEmailAndPassword(email,password)
+   export const createUserWithEmailAndPassword = (name,password,email) =>{
+      return firebase.auth().createUserWithEmailAndPassword(email,password)
       .then(res =>{
         const newUserInfo = res.user;
         newUserInfo.error = '';
@@ -59,6 +59,7 @@ export const initializeLoginFrameWork = () =>{
         const newUserInfo = {};
         newUserInfo.success =  false;
         newUserInfo.error = error.message;
+        console.log(error);
         return newUserInfo;
       });
     }
@@ -69,8 +70,8 @@ export const initializeLoginFrameWork = () =>{
           const newUserInfo = res.user;
           newUserInfo.error = '';
           newUserInfo.success = true;
-          // console.log(res);
           return newUserInfo;
+          console.log('user sign in successfully');
         })
         .catch(function(error) {
           const newUserInfo = {};
