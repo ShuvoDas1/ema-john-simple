@@ -5,7 +5,7 @@ const Cart = (props) => {
 
     const cart = props.cart;
     // console.log(cart);
-    const total = cart.reduce((total,product)=> total+product.price*product.quantity,0);
+    const total = cart.reduce((total,product)=> total+product.price * product.quantity || 1,0);
 
     let shipping =0;
     if(total > 35){
