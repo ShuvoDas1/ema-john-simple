@@ -1,60 +1,64 @@
-import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import React from 'react';
 import { useState } from 'react';
 
 
-const SimpleCardForm = () => {
-  const stripe = useStripe();
-  const elements = useElements();
+const SimpleCardForm = ({ handlePayment }) => {
+    const stripe = useStripe();
+    const elements = useElements();
 
-  const [paymentError,setPaymentError] =  useState(null)
-  const [paymentSuccess,setPaymentSuccess] =  useState(null);
+    const [paymentError, setPaymentError] = useState(null)
+    const [paymentSuccess, setPaymentSuccess] = useState(null);
 
-  const handleSubmit = async (event) => {
-    // Block native form submission.
-    event.preventDefault();
+    const handleSubmit = async (event) => {
+        // Block native form submission.
+        event.preventDefault();
 
-    if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
-      return;
-    }
+        if (!stripe || !elements) {
+            // Stripe.js has not loaded yet. Make sure to disable
+            // form submission until Stripe.js has loaded.
+            return;
+        }
 
-    // Get a reference to a mounted CardElement. Elements knows how
-    // to find your CardElement because there can only ever be one of
-    // each type of element.
-    const cardElement = elements.getElement(CardElement);
+        // Get a reference to a mounted CardElement. Elements knows how
+        // to find your CardElement because there can only ever be one of
+        // each type of element.
+        const cardElement = elements.getElement(CardElement);
 
-    // Use your card Element with other Stripe.js APIs
-    const {error, paymentMethod} = await stripe.createPaymentMethod({
-      type: 'card',
-      card: cardElement,
-    });
+        // Use your card Element with other Stripe.js APIs
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
+            type: 'card',
+            card: cardElement,
+        });
 
-    if (error) {
-      setPaymentError(error.message)
-      setPaymentSuccess(null)
-    } else {
-        setPaymentSuccess(paymentMethod.id)
-        setPaymentError(null)
-    }
-  };
+        if (error) {
+            setPaymentError(error.message)
+            setPaymentSuccess(null)
+        } else {
+            setPaymentSuccess(paymentMethod.id)
+            setPaymentError(null)
+            handlePayment(paymentMethod.id)
+        }
+    };
 
-  return (
-    <div>
-        <form onSubmit={handleSubmit}>
-            <CardElement />
-            <button type="submit" disabled={!stripe}>
-                Pay
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <CardElement />
+                <button type="submit" disabled={!stripe}>
+                    Pay
             </button>
-            {
-                paymentError ? <p style={{color:'red'}}>{paymentError}</p> : 
-                <p style={{color:'blue'}}>Your payment was successfully</p>
-            }
-        </form>
+                {
+                    paymentError && <p style={{ color: 'red' }}>{paymentError}</p>
 
-    </div>
-  );
+                }
+                {
+                    paymentSuccess && <p style={{ color: 'blue' }}>Your payment was successfully</p>
+                }
+            </form>
+
+        </div>
+    );
 };
 
 export default SimpleCardForm;
