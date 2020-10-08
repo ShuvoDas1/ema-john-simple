@@ -17,7 +17,7 @@ const Product = (props) => {
                 <h3 className='product-name'><Link to={"/product/"+ key}>{name}</Link></h3>
                 <small>by:{seller}</small>
                 <br />
-                    <p><Link to={'/productPrice/' + key}>{price}</Link></p>
+                    <p><Link to={'/productPrice/' + key}>Price:{price}</Link></p>
                     <p>only {stock} left in stock-order soon</p>
                 {props.showDetail &&
                     <>
