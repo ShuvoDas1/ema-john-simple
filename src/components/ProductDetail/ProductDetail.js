@@ -6,11 +6,15 @@ import Product from '../Product/Product';
 
 const ProductDetail = () => {
     const {productKey} = useParams();
+    const [loading,setLoading] = useState(true)
     const [product,setProduct] =  useState({})
     useEffect(() =>{
-        fetch('http://localhost:4000/product/'+ productKey)
+        fetch('https://protected-ravine-09230.herokuapp.com/product/'+ productKey)
         .then(res => res.json())
-        .then(data => setProduct(data))
+        .then(data => {
+            setProduct(data)
+            setLoading(false);
+        })
     },[productKey])
 
     // const prod = fakeData.find(pd => pd.key === productKey)
@@ -19,8 +23,11 @@ const ProductDetail = () => {
         <div>
            
             <h1>Product Detail:</h1>
-            <Product showDetail={true} showAddToCart={false} product={product}>
-            </Product>
+
+            {
+                loading ? <p>Loading...</p> : <Product showDetail={true} showAddToCart={false} product={product}>
+                </Product>
+            }
         </div>
     );
 };
