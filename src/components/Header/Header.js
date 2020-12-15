@@ -5,14 +5,15 @@ import logo from '../../images/logo.png'
 import './Header.css'
 const Header = () => {
     const [loggedInUser,setLoggedInUser] = useContext(UserContext);
+    console.log(loggedInUser);
     return (
         <div className='header'>
             <img src={logo} alt=""/>
-            <nav>
+            <nav className='p-2'>
                 <Link to="/shop">Shop</Link>
                 <Link to="/review">Order review</Link>
                 <Link to="/inventory">Manage inventory</Link>
-                <button  onClick={() => setLoggedInUser({})}>Sign Out</button>
+                {/* <button className='btn btn-info ml-lg-3'  onClick={() => setLoggedInUser({})}>Sign Out</button> */}
             </nav>
         </div>
     );

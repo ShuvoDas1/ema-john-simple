@@ -8,12 +8,13 @@ import { Link } from 'react-router-dom';
 const Shop = () => {
     const [products,setProduct] = useState([]);
     const [cart,setCart] = useState([]);
+    const [search,setSearch] =  useState('');
     
     useEffect(() =>{
-        fetch('https://protected-ravine-09230.herokuapp.com/products')
+        fetch('https://protected-ravine-09230.herokuapp.com/products?search='+search)
         .then(res => res.json())
         .then(data => setProduct(data))
-    },[])
+    },[search])
 
     useEffect(()=>{
         const saveCart = getDatabaseCart();
@@ -27,9 +28,13 @@ const Shop = () => {
             .then(data => setCart(data))
 
     },[])
+
+    const handleSearch = event =>{
+        setSearch(event.target.value);
+    }
+
     const handleAddProduct = (product) =>{
         const sameProduct = cart.find(pd => pd.key === product.key);
-        //  console.log(sameProduct);
         let count=1;
         let newCart;
         if(sameProduct){
@@ -50,6 +55,7 @@ const Shop = () => {
     return (
         <div className="shop-review-container">
             <div className="product-container">
+            <input type="text" onBlur={handleSearch} placeholder="Search Product" className='search-container'/>
             {
                 products == 0 && <p>LOADING.....</p>
             }
